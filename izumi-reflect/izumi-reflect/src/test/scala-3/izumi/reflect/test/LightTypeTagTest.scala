@@ -31,6 +31,11 @@ class LightTypeTagTest extends SharedLightTypeTagTest {
 
   "lightweight type tags (Dotty)" should {
 
+    "support PDTs" in {
+      assertDifferent(LTT[A.Nested.NestedTrait], LTT[B.Nested.NestedTrait])
+      assertDifferent(LTT[A.Nested.NestedClass], LTT[B.Nested.NestedClass])
+    }
+
     "tautological intersections with Matchable are discarded from internal structure (Scala 3 specific, Matchable)" in {
       assertSameStrict(LTT[Matchable with Option[String]], LTT[Option[String]])
       assertDebugSame(LTT[Matchable with Option[String]], LTT[Option[String]])

@@ -26,6 +26,11 @@ class LightTypeTagTest extends SharedLightTypeTagTest {
 
   "lightweight type tags (Scala 2)" should {
 
+    "support PDTs" in {
+      assertDifferent(LTT[A.Nested.NestedTrait], LTT[B.Nested.NestedTrait])
+      assertDifferent(LTT[A.Nested.NestedClass], LTT[B.Nested.NestedClass])
+    }
+
     "support structural & refinement type equality (Scala 2 specific, generic type projection)" in {
       val a1 = new C {
         override type A = Int

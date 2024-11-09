@@ -115,3 +115,8 @@ project/plugins/project/
 hs_err_pid*
 
 .vscode
+
+flake.*
+.envrc
+.direnv
+.share

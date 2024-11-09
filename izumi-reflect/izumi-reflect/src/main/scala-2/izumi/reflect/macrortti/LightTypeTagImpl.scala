@@ -100,7 +100,6 @@ final class LightTypeTagImpl[U <: Universe with Singleton](val u: U, withCache: 
       val allBases = Seq(basesAsLambdas, stableBases)
       allBases.iterator.flatten.toMultimap.filterNot(_._2.isEmpty)
     }
-
     val unappliedDb = makeClassOnlyInheritanceDb(tpe, allReferenceComponents)
 
     LightTypeTag(lttRef, fullDb, unappliedDb)
@@ -609,6 +608,14 @@ final class LightTypeTagImpl[U <: Universe with Singleton](val u: U, withCache: 
             val newPrefix = if (hasSingletonType(resultType.typeSymbol)) makePrefixReference(resultType) else prefix
             NameReference(makeSymName(sym), boundaries, newPrefix)
         }
+
+      case tr: TypeRefApi
+          if isSingletonType(tr.pre) &&
+          tr.args.isEmpty &&
+          tr.sym.isClass &&
+          tr.typeSymbol.fullName != tr.toString &&
+          tr.pre.toString == tr.pre.widen.toString =>
+        NameReference(SymLiteral(tr.toString), boundaries, prefix)
 
       case _ =>
         NameReference(makeSymName(typeSymbol), boundaries, prefix)
