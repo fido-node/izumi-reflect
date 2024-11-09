@@ -78,6 +78,16 @@ object TestModel {
 
   type T3[A, B] = W5[A] with W4[B] with W1
 
+  trait Base {
+    object Nested {
+      trait NestedTrait
+      class NestedClass
+    }
+  }
+
+  object A extends Base
+  object B extends Base
+
   trait I1
 
   trait I2 extends I1
